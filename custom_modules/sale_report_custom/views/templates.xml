@@ -19,9 +19,9 @@
                     
                         <h2 class="mt16">
 							<t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
-								<span>Proyecto/Oportunidad: </span>
+								<span>Proyecto: </span>
 							</t>
-							<span t-field="doc.origin"/>
+                            <span t-field="doc.origin"/><span>/</span><span t-field="doc.opportunity_id.x_file_number"/>
 						</h2>
 
 						<div class="row mt32 mb32" id="informations">
@@ -42,28 +42,20 @@
 								<p class="m-0" t-field="doc.validity_date" t-options='{"format": "dd/MM/yyyy"}'/>
 							</div>
 							<div t-if="doc.user_id.name" class="col-auto mw-100 mb-2">
-								<strong>Comercial:</strong>
+								<strong>Contacto:</strong>
 								<p class="m-0" t-field="doc.user_id"/>
 							</div>
-                            <div t-if="doc.user_id.phone" class="col-auto mw-100 mb-2">
-								<strong>Tlf Comercial:</strong>
-								<p class="m-0" t-field="doc.user_id.phone"/>
-							</div>
                             <div t-if="doc.user_id.mobile" class="col-auto mw-100 mb-2">
-								<strong>Móvil Comercial:</strong>
+								<strong>Móvil Contacto:</strong>
 								<p class="m-0" t-field="doc.user_id.mobile"/>
-							</div>
-                            <div t-if="doc.user_id.email" class="col-auto mw-100 mb-2">
-								<strong>Mail Comercial:</strong>
-								<p class="m-0" t-field="doc.user_id.email"/>
 							</div>
 						</div>
                     
-                        <div class="row mt32 mb32" id="intro">
-                            <span>Muy señores nuestros,</span><br/>
+                        <p>
+							<span>Muy señores nuestros,</span><br/>
                             <span>Atendiendo su amable petición, a continuación les remitimos nuestra oferta para el
 suministro de los materiales solicitados:.</span>
-                        </div>
+						</p>
 
 						<!-- Is there a discount on at least one line? -->
 						<t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
@@ -101,7 +93,7 @@ suministro de los materiales solicitados:.</span>
 												<span t-field="line.product_uom" groups="uom.group_uom"/>
 											</td>
 											<td name="td_priceunit" class="text-right">
-												<span t-field="line.price_unit"/>
+                                                <span t-field="line.price_unit"/> <span> €</span>
 											</td>
 											<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
 												<span t-field="line.discount"/>
@@ -195,7 +187,9 @@ suministro de los materiales solicitados:.</span>
 						</div>
 
 						<div class="oe_structure"/>
-                            
+                        
+                        <h3>Condiciones de entrega:</h3><br/>
+                        
                         <p t-if="doc.partner_shipping_id">
                             <strong>Dirección de entrega</strong><br/>
                             <span t-field="doc.partner_shipping_id.street"/>
@@ -210,8 +204,9 @@ suministro de los materiales solicitados:.</span>
 							<span>14 días</span>
 						</p>
                     
-                        <p t-if="doc.payment_term_id.note">
-							<span t-field="doc.payment_term_id.note"/>
+                        <p t-if="doc.payment_term_id">
+                            <strong>Plazo de pago</strong><br/>
+							<span t-field="doc.payment_term_id"/>
 						</p>
                         
                         <p t-if="doc.expected_date">
@@ -235,6 +230,6 @@ suministro de los materiales solicitados:.</span>
 				</div>
             </xpath>
 		
-        </template>		
+        </template>			
 	</data>
 </odoo>

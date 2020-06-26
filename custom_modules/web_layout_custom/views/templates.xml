@@ -23,6 +23,45 @@
 				</div>
 			</xpath>
             
+            <xpath expr="//div[@class='footer o_clean_footer']" position="replace">
+                <div class="footer o_clean_footer">
+                    <!--<div class="row mt8">
+                        <div class="col-3">
+                            <span t-field="company.report_footer"/>
+                        </div>
+                        <div class="col-4 text-right">
+                            <span t-field="company.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: true}"/>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mt0 mb0 text-uppercase" t-field="company.report_header"/>
+                        </div>
+                        <div class="col-1">
+                            <ul t-if="report_type == 'pdf'" class="list-inline pagenumber float-right text-center">
+                                <li class="list-inline-item"><strong><span class="page"/></strong></li>
+                            </ul>
+                        </div>
+                    </div>-->
+                    
+                    <div class="text-center">
+                        <ul class="list-inline">
+                            <li t-if="company.street" class="list-inline-item"><i class="fa fa-building-o" role="img" aria-label="Direccion" title="Direccion"/> <span t-field="company.street"/> <span t-field="company.city"/> <span t-field="company.zip"/> <span t-field="company.country_id"/></li>
+                            <li t-if="company.phone" class="list-inline-item"><i class="fa fa-phone" role="img" aria-label="Phone" title="Phone"/> <span t-field="company.phone"/></li>
+                            <li t-if="company.email" class="list-inline-item"><i class="fa fa-at" role="img" aria-label="Email" title="Email"/> <span t-field="company.email"/></li>
+                            <li t-if="company.website" class="list-inline-item"><i class="fa fa-globe" role="img" aria-label="Website" title="Website"/> <span t-field="company.website"/></li>
+                            <li t-if="company.vat" class="list-inline-item"><i class="fa fa-building-o" role="img" aria-label="Fiscal number"/><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>
+                        </ul>
+                        <div t-field="company.report_footer"/>
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            Pág:
+                            <span class="page"/>
+                            de
+                            <span class="topage"/>
+                        </div>
+                    </div>
+                    
+                </div>
+            </xpath>
+            
         </template>
     </data>
 </odoo>
