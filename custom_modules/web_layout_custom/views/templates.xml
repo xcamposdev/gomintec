@@ -44,6 +44,7 @@
                     
                     <div class="text-center">
                         <ul class="list-inline">
+                            <li t-if="company.name" class="list-inline-item"><i class="fa fa-building-o" role="img"/> <span t-field="company.name"/></li>
                             <li t-if="company.street" class="list-inline-item"><i class="fa fa-building-o" role="img" aria-label="Direccion" title="Direccion"/> <span t-field="company.street"/> <span t-field="company.city"/> <span t-field="company.zip"/> <span t-field="company.country_id"/></li>
                             <li t-if="company.phone" class="list-inline-item"><i class="fa fa-phone" role="img" aria-label="Phone" title="Phone"/> <span t-field="company.phone"/></li>
                             <li t-if="company.email" class="list-inline-item"><i class="fa fa-at" role="img" aria-label="Email" title="Email"/> <span t-field="company.email"/></li>
