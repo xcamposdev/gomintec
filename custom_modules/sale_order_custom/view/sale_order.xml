@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Adicion de boton -->
+    <record id="view_form_purchase_edicom_custom_0" model="ir.ui.view">
+        <field name="name">sale_order.custom.0</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <button name="btn_catalogo_esp" string="Catalogo Español" type="object" class="oe_highlight" />
+                <button name="btn_catalogo_en" string="Catalogo Ingles" type="object" class="oe_highlight" />
+                <button name="btn_certificado" string="Certificado" type="object" class="oe_highlight" />
+            </field>
+        </field>
+    </record>
+    
+</odoo>
