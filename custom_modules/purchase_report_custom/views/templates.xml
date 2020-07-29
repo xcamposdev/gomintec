@@ -6,22 +6,28 @@
 				<div class="page">
 					<div class="oe_structure"/>
 
-					<h2 t-if="o.state == 'draft'">Request for Quotation #<span t-field="o.name"/></h2>
-					<h2 t-if="o.state in ['sent', 'to approve']">Purchase Order #<span t-field="o.name"/></h2>
-					<h2 t-if="o.state in ['purchase', 'done']">Purchase Order #<span t-field="o.name"/></h2>
+					<h2 t-if="o.partner_id.lang == 'en_US' and o.state == 'draft'">Request for Quotation #<span t-field="o.name"/></h2>
+                    <h2 t-if="o.partner_id.lang == 'es_ES' and o.state == 'draft'">Solicitud de presupuesto #<span t-field="o.name"/></h2>
+					<h2 t-if="o.partner_id.lang == 'en_US' and o.state in ['sent', 'to approve']">Purchase Order #<span t-field="o.name"/></h2>
+                    <h2 t-if="o.partner_id.lang == 'es_ES' and o.state in ['sent', 'to approve']">Pedido compra #<span t-field="o.name"/></h2>
+					<h2 t-if="o.partner_id.lang == 'en_US' and o.state in ['purchase', 'done']">Purchase Order #<span t-field="o.name"/></h2>
+                    <h2 t-if="o.partner_id.lang == 'es_ES' and o.state in ['purchase', 'done']">Pedido compra #<span t-field="o.name"/></h2>
 					<h2 t-if="o.state == 'cancel'">Cancelled Purchase Order #<span t-field="o.name"/></h2>
 
 					<div id="informations" class="row mt32 mb32">
 						<div t-if="o.user_id" class="col-3 bm-2">
-							<strong>Purchase Representative:</strong>
+							<strong t-if="o.partner_id.lang == 'en_US'">Purchase Representative:</strong>
+                            <strong t-if="o.partner_id.lang == 'es_ES'">Contacto:</strong>
 							<p t-field="o.user_id" class="m-0"/>
 						</div>
 						<div t-if="o.partner_ref" class="col-3 bm-2">
-							<strong>Your Order Reference:</strong>
+							<strong t-if="o.partner_id.lang == 'en_US'">Your Order Reference:</strong>
+                            <strong t-if="o.partner_id.lang == 'es_ES'">Referencia pedido:</strong>
 							<p t-field="o.partner_ref" class="m-0"/>
 						</div>
 						<div t-if="o.date_order" class="col-3 bm-2">
-							<strong>Order Date:</strong>
+							<strong t-if="o.partner_id.lang == 'en_US'">Order Date:</strong>
+                            <strong t-if="o.partner_id.lang == 'es_ES'">Fecha pedido:</strong>
 							<p t-field="o.date_order" class="m-0"/>
 						</div>
 					</div>
@@ -29,12 +35,13 @@
 					<table class="table table-sm o_main_table">
 						<thead>
 							<tr>
-								<th name="th_description"><strong>Description</strong></th>
-								<th name="th_taxes"><strong>Taxes</strong></th>
-								<th name="th_date_req" class="text-center"><strong>Date Req.</strong></th>
-								<th name="th_quantity" class="text-right"><strong>Qty</strong></th>
-								<th name="th_price_unit" class="text-right"><strong>Unit Price</strong></th>
-								<th name="th_amount" class="text-right"><strong>Amount</strong></th>
+								<th t-if="o.partner_id.lang == 'en_US'" name="th_description"><strong>Description</strong></th>
+                                <th t-if="o.partner_id.lang == 'es_ES'" name="th_description"><strong>Descripcion</strong></th>
+								<th t-if="o.partner_id.lang == 'en_US'" name="th_quantity" class="text-right"><strong>Qty.</strong></th>
+                                <th t-if="o.partner_id.lang == 'es_ES'" name="th_quantity" class="text-right"><strong>Cant.</strong></th>
+								<th t-if="o.partner_id.lang == 'en_US'" name="th_price_unit" class="text-right"><strong>Unit Price</strong></th>
+                                <th t-if="o.partner_id.lang == 'es_ES'" name="th_price_unit" class="text-right"><strong>Precio</strong></th>
+								<th name="th_amount" class="text-right"><strong>Total</strong></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -47,12 +54,6 @@
 									<t t-if="not line.display_type">
 										<td id="product">
 											<span t-field="line.name"/>
-										</td>
-										<td name="td_taxes">
-											<span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>
-										</td>
-										<td class="text-center">
-											<span t-field="line.date_planned"/>
 										</td>
 										<td class="text-right">
 											<span t-field="line.product_qty"/>
@@ -100,7 +101,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td name="td_taxes_label">Taxes</td>
+									<td name="td_taxes_label">Imp/tax</td>
 									<td class="text-right">
 										<span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
 									</td>
