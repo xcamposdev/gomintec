@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE xml>
+<odoo>
+
+    <template id="assets_helper" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/helper_custom/static/src/css/helper_custom.css" />
+        </xpath>
+    </template>
+
+</odoo>
