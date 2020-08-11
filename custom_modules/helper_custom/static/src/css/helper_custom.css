@@ -1,0 +1,41 @@
+.sale_order_style_custom table thead tr th:nth-child(2) {
+    width: 100px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(3) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(5) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(6) {
+    width: 60px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(7) {
+    width: 60px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(8) {
+    width: 60px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(9) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(10) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(11) {
+    width: 60px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(12) {
+    width: 90px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(13) {
+    width: 60px !important;
+}
+/* .sale_order_style_custom table thead tr th */
+/* [data-id="name"] {
+    width: 200px;
+} */
+/* .sale_order_style_custom > table > thead > tr > th [data-name="product_id"] {
+    width: 100px;
+    color: blue;
+} */
