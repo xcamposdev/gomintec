@@ -1,5 +1,20 @@
+.sale_order_style_custom table thead tr th:nth-child(1) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(2) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(3) {
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(4) {
+    width: 80px !important;
+}
 .sale_order_style_custom table thead tr th:nth-child(5) {
-    width: 100px !important;
+    width: 80px !important;
+}
+.sale_order_style_custom table thead tr th:nth-child(6) {
+    width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(9) {
     width: 80px !important;
@@ -8,13 +23,13 @@
     width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(12) {
-    width: 60px !important;
+    width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(13) {
-    width: 60px !important;
+    width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(14) {
-    width: 60px !important;
+    width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(15) {
     width: 80px !important;
@@ -23,13 +38,13 @@
     width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(17) {
-    width: 60px !important;
+    width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(18) {
     width: 80px !important;
 }
 .sale_order_style_custom table thead tr th:nth-child(28) {
-    width: 90px !important;
+    width: 80px !important;
 }
 /* .sale_order_style_custom table thead tr th */
 /* [data-id="name"] {
