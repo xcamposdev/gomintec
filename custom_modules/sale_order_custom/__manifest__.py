@@ -9,7 +9,7 @@
     'description': """
         Modificar funcionalidad de pedidos
         """,
-    'depends': ['sale'],
+    'depends': ['sale','sale_margin'],
     'data': [
         # 'security/ir.model.access.csv',
         'view/sale_order.xml',
