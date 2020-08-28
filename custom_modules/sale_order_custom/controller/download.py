@@ -9,23 +9,40 @@ from odoo import http
 from odoo.http import request
 from odoo.addons.web.controllers.main import content_disposition
 import ast
+import json
 
 _logger = logging.getLogger(__name__)
 
 
 class DownloadMultipleFiles(http.Controller):
-    @http.route('/web/binary/download_document', type='http', auth="public")
+    @http.route('/web/binary/download_document', type='http', auth="user")
     def download_document(self, product_ids, type, **kw):
-        products = ast.literal_eval(product_ids)
-        attachment_ids = request.env['ir.attachment'].search([('res_model','=','product.template'),('res_id', 'in', products)])
+        product_ids = json.loads(product_ids)
+        attachment_ids = request.env['ir.attachment'].search(['&',('res_model','=','product.template'),('res_id', 'in', product_ids)])
         file_dict = {}
         for attachment_id in attachment_ids:
-            if(attachment_id.name.startswith(type)):
-                file_store = attachment_id.store_fname
-                if file_store:
-                    file_name = attachment_id.name
-                    file_path = attachment_id._full_path(file_store)
-                    file_dict["%s:%s" % (file_store, file_name)] = dict(path=file_path, name=file_name)
+            file_name = attachment_id.name.replace(".pdf","")
+            if (type == "ficha_ESP"):
+                if(len(file_name) > 2 and file_name.startswith('2')):
+                    file_store = attachment_id.store_fname
+                    if file_store:
+                        file_name = attachment_id.name
+                        file_path = attachment_id._full_path(file_store)
+                        file_dict["%s:%s" % (file_store, file_name)] = dict(path=file_path, name=file_name)    
+            elif (type == "ficha_EN"):
+                if(len(file_name) == 2):
+                    file_store = attachment_id.store_fname
+                    if file_store:
+                        file_name = attachment_id.name
+                        file_path = attachment_id._full_path(file_store)
+                        file_dict["%s:%s" % (file_store, file_name)] = dict(path=file_path, name=file_name)    
+            elif (type == "Cert"):
+                if(len(file_name) > 2 and file_name.startswith('1')):
+                    file_store = attachment_id.store_fname
+                    if file_store:
+                        file_name = attachment_id.name
+                        file_path = attachment_id._full_path(file_store)
+                        file_dict["%s:%s" % (file_store, file_name)] = dict(path=file_path, name=file_name)
         zip_filename = datetime.now()
         zip_filename = "%s.zip" % zip_filename
         bitIO = BytesIO()

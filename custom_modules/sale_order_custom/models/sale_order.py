@@ -7,10 +7,13 @@ from odoo import api, fields, models, exceptions
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools import float_is_zero, float_compare
 
+import logging
+import json
 import zipfile
 from datetime import datetime
 from io import BytesIO
 
+_logger = logging.getLogger(__name__)
 
 class SaleOrderCustom0(models.Model):
 
@@ -21,8 +24,9 @@ class SaleOrderCustom0(models.Model):
         product_id = []
         for line in self.order_line:
             if(line.product_id):
-                product_id.append(line.product_id.id)
-        url = '/web/binary/download_document?product_ids=%s&type=ficha_ESP' % product_id
+                product_id.append(line.product_template_id.id)
+        product_id = (json.dumps(product_id)).replace(" ","")
+        url = '/web/binary/download_document?type=ficha_ESP&product_ids=' + product_id
         return {
             'type': 'ir.actions.act_url',
             'url': url,
@@ -33,8 +37,9 @@ class SaleOrderCustom0(models.Model):
         product_id = []
         for line in self.order_line:
             if(line.product_id):
-                product_id.append(line.product_id.id)
-        url = '/web/binary/download_document?product_ids=%s&type=ficha_EN' % product_id
+                product_id.append(line.product_template_id.id)
+        product_id = (json.dumps(product_id)).replace(" ","")
+        url = '/web/binary/download_document?type=ficha_EN&product_ids=' + product_id
         return {
             'type': 'ir.actions.act_url',
             'url': url,
@@ -45,8 +50,9 @@ class SaleOrderCustom0(models.Model):
         product_id = []
         for line in self.order_line:
             if(line.product_id):
-                product_id.append(line.product_id.id)
-        url = '/web/binary/download_document?product_ids=%s&type=Cert' % product_id
+                product_id.append(line.product_template_id.id)
+        product_id = (json.dumps(product_id)).replace(" ","")
+        url = '/web/binary/download_document?type=Cert&product_ids=' + product_id
         return {
             'type': 'ir.actions.act_url',
             'url': url,
