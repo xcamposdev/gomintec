@@ -6,7 +6,7 @@
                 <div class="page">
 					<div class="oe_structure"/>
 
-						<h2 class="mt16">
+						<h3 class="mt16">
 							<t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
 								<span t-if="doc.partner_id.lang == 'es_ES' and doc.state not in ['draft','sent']">Pedido # </span>
 								<span t-if="doc.partner_id.lang == 'en_US' and doc.state not in ['draft','sent']">Order # </span>
@@ -17,15 +17,15 @@
 								<span>Factura Proforma # </span>
 							</t>
 							<span t-field="doc.name"/>
-						</h2>
+						</h3>
                     
-                        <h2 class="mt16">
+                        <h3 class="mt16">
 							<t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
 								<span t-if="doc.partner_id.lang == 'es_ES'">Proyecto: </span>
 								<span t-if="doc.partner_id.lang == 'en_US'">Project: </span>
 							</t>
-                            <span t-field="doc.origin"/><span>/</span><span t-field="doc.opportunity_id.x_file_number"/>
-						</h2>
+                            <span t-field="doc.opportunity_id.name"/><span>/</span><span t-field="doc.opportunity_id.x_file_number"/>
+						</h3>
 
 						<div class="row mt32 mb32" id="informations">
 							<div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
@@ -64,6 +64,11 @@
 							<span>Muy señores nuestros,</span><br/>
                             <span>Atendiendo su amable petición, a continuación les remitimos nuestra oferta para el
 suministro de los materiales solicitados:.</span>
+						</p>
+						
+						<p t-if="doc.partner_id.lang == 'en_US'">
+							<span>Dear Sirs,</span><br/>
+                            <span>In response to your kind request, below we send you our offer for the supply of the requested materials:</span>
 						</p>
 
 						<!-- Is there a discount on at least one line? -->
@@ -107,7 +112,7 @@ suministro de los materiales solicitados:.</span>
 												<span t-field="line.product_uom" groups="uom.group_uom"/>
 											</td>
 											<td name="td_priceunit" class="text-right">
-                                                <span t-field="line.x_precio_venta_unitario"/> <span> €</span>
+                                                <span t-field="line.x_precio_venta_unitario" t-options='{"widget": "float", "precision": 2}'/> <span> €</span>
 											</td>
 											<!--<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
 												<span t-field="line.discount"/>
@@ -208,21 +213,22 @@ suministro de los materiales solicitados:.</span>
                         <p t-if="doc.partner_shipping_id">
                             <strong t-if="doc.partner_id.lang == 'es_ES'">Dirección de entrega</strong>
 							<strong t-if="doc.partner_id.lang == 'en_US'">Delivery address</strong><br/>
-                            <span t-field="doc.partner_shipping_id.street"/>
+							<span t-field="doc.partner_shipping_id"/>
+                            <span t-if="doc.partner_shipping_id.street" t-field="doc.partner_shipping_id.street"/>
                             <span t_if="doc.partner_shipping_id.street2" t-field="doc.partner_shipping_id.street2"/><br/>
-                            <span t-field="doc.partner_shipping_id.city"/>
-                            <span t-field="doc.partner_shipping_id.zip"/>
-                             (<span t-field="doc.partner_shipping_id.country_id.name"/>)
+                            <span t-if="doc.partner_shipping_id.city" t-field="doc.partner_shipping_id.city"/>
+                            <span t-if="doc.partner_shipping_id.zip" t-field="doc.partner_shipping_id.zip"/>
+                            <span t-if="doc.partner_shipping_id.country_id.name" t-field="doc.partner_shipping_id.country_id.name"/>
 						</p>
                         
                         <p t-if="doc.partner_id.lang == 'es_ES' and doc.expected_date">
                             <strong>Validez de la oferta</strong><br/>
-							<span>14 días</span>
+							<span t-field="doc.x_validity"/> días
 						</p>
 						
 						<p t-if="doc.partner_id.lang == 'en_US' and doc.expected_date">
                             <strong>Validity</strong><br/>
-							<span>14 days</span>
+							<span t-field="doc.x_validity"/> days
 						</p>
                     
                         <p t-if="doc.partner_id.lang == 'es_ES' and doc.payment_term_id">
@@ -237,16 +243,17 @@ suministro de los materiales solicitados:.</span>
                         
                         <p t-if="doc.partner_id.lang == 'es_ES' and doc.expected_date">
                             <strong>Fecha estimada de entrega</strong><br/>
-							<span>8 semanas</span>
+							<span t-field="doc.commitment_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
 						</p>
 						
 						<p t-if="doc.partner_id.lang == 'en_US' and doc.expected_date">
                             <strong>Estimated delivery date</strong><br/>
-							<span>8 semanas</span>
+							<span t-field="doc.commitment_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
 						</p>
                         
                         <p>
-                            <strong>IVA no incluido / not included</strong><br/>
+                            <strong t-if="doc.partner_id.lang == 'es_ES'">IVA no incluido</strong>
+							<strong t-if="doc.partner_id.lang == 'en_US'">VAT not included</strong><br/>
                         </p>
                         
                         <p t-if="doc.partner_id.lang == 'es_ES' and doc.note">
