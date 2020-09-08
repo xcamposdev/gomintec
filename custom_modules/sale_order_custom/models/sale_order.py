@@ -59,4 +59,17 @@ class SaleOrderCustom0(models.Model):
             'target': 'new',
         }
 
+class SaleOrderLineCustom0(models.Model):
+    _name = 'sale.order.line'
+    _inherit = 'sale.order.line'
+    
+    @api.depends('product_id', 'purchase_price', 'product_uom_qty', 'price_unit', 'price_subtotal', 'x_descuento_compra', 'x_money_change', 'x_transporte', 'x_coste_unitario_new')
+    def _product_margin(self):
+        for line in self:
+            currency = line.order_id.pricelist_id.currency_id
+            #price = line.purchase_price
+            price = line.x_coste_unitario_new #custom
+            margin = line.price_subtotal - (price * line.product_uom_qty)
+            #line.margin = currency.round(margin) if currency else margin
+            line.margin = margin #custom
   
