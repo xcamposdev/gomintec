@@ -35,3 +35,48 @@ class SaleOrderLine_custom(models.Model):
                 'price_subtotal': taxes['total_excluded'],
                 
             })
+            
+class SaleOrderOption_custom(models.Model):
+    _name = "sale.order.option"
+    _inherit = "sale.order.option"
+    
+    x_margen_k = fields.Float('Margen', required=True, default=1.0)
+    x_transporte = fields.Float('Transporte', required=True, default=1.0)
+    x_money_change = fields.Float('Cambio Moneda', required=True, default=1.0)
+    x_descuento_compra = fields.Float('Descuento compra', required=True, default=0.0)
+    x_coste_unitario = fields.Float('Coste unitario', readonly=True, compute="coste_unitario")
+    x_coste_total = fields.Float('Coste total', readonly=True, compute="coste_total")
+    x_precio_venta_unitario = fields.Float('Precio venta unitario', readonly=True, compute="precio_venta_unitario")
+    x_coste = fields.Float('Coste')
+    
+    @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra')
+    def coste_unitario(self):
+        self.x_coste_unitario = self.x_coste * (1.0-(self.x_descuento_compra/100.0)) * self.x_money_change * self.x_transporte
+    
+    @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra') 
+    def coste_total(self):
+        self.x_coste_total = self.x_coste_unitario * self.quantity
+    
+    @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra', 'x_margen_k') 
+    def precio_venta_unitario(self):
+        self.x_precio_venta_unitario = self.x_margen_k * self.x_coste_unitario
+    
+    @api.onchange('product_id', 'uom_id')
+    def _onchange_product_id(self):
+        if not self.product_id:
+            return
+        product = self.product_id.with_context(lang=self.order_id.partner_id.lang)
+        self.name = product.get_product_multiline_description_sale()
+        self.uom_id = self.uom_id or product.uom_id
+        domain = {'uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}
+        # To compute the dicount a so line is created in cache
+        values = self._get_values_to_add_to_order()
+        new_sol = self.env['sale.order.line'].new(values)
+        new_sol._onchange_discount()
+        self.discount = new_sol.discount
+        self.price_unit = new_sol._get_display_price(product)
+        self.x_coste = self.product_id.standard_price
+        self.x_coste_total = self.product_id.standard_price
+        self.x_coste_unitario = self.product_id.standard_price
+        self.x_precio_venta_unitario = self.product_id.standard_price
+        return {'domain': domain}
