@@ -10,11 +10,17 @@ class sale_order_line_custom_0(models.Model):
 
     _inherit = 'sale.order.line'
 
-    x_mostrar_seccion = fields.Text(compute='get_description')
+    #name = fields.Text(string='Description', required=True)
+    x_mostrar_seccion = fields.Text()
 
-    def get_description(self):
-        for rec in self:
-            if(rec.display_type):
-                rec.x_mostrar_seccion = rec.name
-            else:
-                rec.x_mostrar_seccion = ""
+    @api.onchange('x_mostrar_seccion')
+    def _onchange_x_mostrar_seccion(self):
+        test = "te"
+        if(self.x_mostrar_seccion):
+            self.name = self.x_mostrar_seccion
+
+    @api.onchange('name')
+    def _onchange_name_0(self):
+        test = "te"
+        if(self.display_type!=False):
+            self.x_mostrar_seccion = self.name
