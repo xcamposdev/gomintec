@@ -49,7 +49,7 @@ class SaleOrderOption_custom(models.Model):
     x_precio_venta_unitario = fields.Float('Precio venta unitario', readonly=True, compute="precio_venta_unitario")
     x_coste = fields.Float('Coste')
     
-   @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra')
+    @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra')
     def coste_unitario(self):
         for i in self:
             i.x_coste_unitario = i.x_coste * (1.0-(i.x_descuento_compra/100.0)) * i.x_money_change * i.x_transporte
