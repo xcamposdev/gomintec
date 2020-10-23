@@ -49,17 +49,20 @@ class SaleOrderOption_custom(models.Model):
     x_precio_venta_unitario = fields.Float('Precio venta unitario', readonly=True, compute="precio_venta_unitario")
     x_coste = fields.Float('Coste')
     
-    @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra')
+   @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra')
     def coste_unitario(self):
-        self.x_coste_unitario = self.x_coste * (1.0-(self.x_descuento_compra/100.0)) * self.x_money_change * self.x_transporte
+        for i in self:
+            i.x_coste_unitario = i.x_coste * (1.0-(i.x_descuento_compra/100.0)) * i.x_money_change * i.x_transporte
     
     @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra') 
     def coste_total(self):
-        self.x_coste_total = self.x_coste_unitario * self.quantity
+        for i in self:
+            i.x_coste_total = i.x_coste_unitario * i.quantity
     
     @api.depends('x_transporte', 'x_money_change', 'x_descuento_compra', 'x_margen_k') 
     def precio_venta_unitario(self):
-        self.x_precio_venta_unitario = self.x_margen_k * self.x_coste_unitario
+        for i in self:
+            i.x_precio_venta_unitario = i.x_margen_k * i.x_coste_unitario
     
     @api.onchange('product_id', 'uom_id')
     def _onchange_product_id(self):
