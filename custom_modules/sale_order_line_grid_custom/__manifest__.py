@@ -5,12 +5,13 @@
     'author': 'Develoop Software S.A.',
     'category': 'Gomintec',
     'website': 'https://www.develoop.net/',
-    'depends': ['base','sale','sale_margin'],
+    'depends': ['account','base','sale','sale_margin'],
     'summary': 'Gomintec sale order line grid Functionality',
     'description': """
         Da funcionalidad adicional a la columna descripción
         """,
     'data': [
+        'views/assets.xml',
     	'views/sale_order_line_custom.xml',
     ],
     'images': ['static/description/icon.png'],

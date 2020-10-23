@@ -15,12 +15,10 @@ class sale_order_line_custom_0(models.Model):
 
     @api.onchange('x_mostrar_seccion')
     def _onchange_x_mostrar_seccion(self):
-        test = "te"
         if(self.x_mostrar_seccion):
             self.name = self.x_mostrar_seccion
 
     @api.onchange('name')
     def _onchange_name_0(self):
-        test = "te"
         if(self.display_type!=False):
             self.x_mostrar_seccion = self.name
