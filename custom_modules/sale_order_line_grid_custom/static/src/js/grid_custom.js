@@ -48,9 +48,10 @@ odoo.define('sale_order_line_grid_custom.grid_custom_js', function (require) {
         },
         
         _renderBodyCell: function (record, node, index, options) {
-            
+
             var $cell = this._super.apply(this, arguments);
-    
+            $cell.removeClass("o_hidden");
+
             var isSection = record.data.display_type === 'line_section';
             var isNote = record.data.display_type === 'line_note';
     
