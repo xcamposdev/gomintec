@@ -1,0 +1,18 @@
+<odoo>
+
+    <!-- Adicion de elementos en add, edit and summary    optional="hide" -->
+    <record id="view_form_sale_order_line_custom_inherited" model="ir.ui.view">
+        <field name="name">form.sale.order.line.custom.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='name']" position="before" >
+                <field name="x_mostrar_seccion" widget="section_and_note_text" optional="show" string=" " style="display: table-cell !important;" />
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='name']" position="replace" >
+                <field name="name" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+ 
+</odoo>
